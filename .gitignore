@@ -8,6 +8,9 @@ instrutor/
 # Pareceres de correcao, caso sejam gerados dentro do repo
 PARECER-*.md
 
+# Checklist pessoal de acompanhamento (nao entregavel)
+CHECKLIST.md
+
 # ---------------------------------------------------------------------------
 # Ruido de ambiente
 # ---------------------------------------------------------------------------
