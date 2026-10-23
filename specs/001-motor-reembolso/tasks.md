@@ -152,6 +152,13 @@
   - **Aceite:** `test_RN_016_*` e e-007 `pendente` em `test_envelope_cc_comercial`
   - **Commit:** `c87e556` (motor/política), `f467c06` (testes)
 
+## Fase 6 — Fechamento
+
+- [x] **T-027** — Relatório final e export sessão Dia 2 tarde
+  - **Atende:** critério Relatório (RUBRICA), CHECKLIST Dia 2 tarde
+  - **Aceite:** `docs/RELATORIO.md` com discernimento citando `docs/sessions/`; export em `docs/sessions/05-…md`
+  - **Commit:** *(pendente)*
+
 ---
 
 ## Cobertura
