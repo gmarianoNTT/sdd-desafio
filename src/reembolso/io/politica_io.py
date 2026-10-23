@@ -31,6 +31,9 @@ def politica_de_dict(dados: dict[str, Any]) -> Politica:
         acrescimo_em_viagem_percentual=Decimal(
             str(dados["acrescimo_em_viagem_percentual"])
         ),
+        aprovacao_manual_acima_de=Decimal(
+            str(dados.get("aprovacao_manual_acima_de", "500"))
+        ),
     )
 
 

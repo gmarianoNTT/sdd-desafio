@@ -16,6 +16,7 @@ class Politica:
     centros_custo: dict[str, dict[str, LimiteCategoria]]
     nota_fiscal_obrigatoria_acima_de: Decimal
     acrescimo_em_viagem_percentual: Decimal
+    aprovacao_manual_acima_de: Decimal
 
     def mapa_efetivo(self, centro_custo: str) -> dict[str, LimiteCategoria]:
         base = dict(self.padrao)

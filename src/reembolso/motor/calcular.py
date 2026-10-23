@@ -24,6 +24,25 @@ def _converter_brl(
     return arredondar_moeda(despesa.valor * taxa), None
 
 
+def _aplicar_fila_aprovacao(item: ResultadoItem, politica: Politica) -> ResultadoItem:
+    if item.status == "recusado":
+        return item
+    if item.valor_reembolsavel <= politica.aprovacao_manual_acima_de:
+        return item
+    limiar = politica.aprovacao_manual_acima_de
+    justificativa = (
+        f"{item.justificativa} Aguardando aprovação manual do gestor "
+        f"(valor reembolsável acima de R$ {limiar:.2f})."
+    )
+    return ResultadoItem(
+        id=item.id,
+        valor_informado=item.valor_informado,
+        valor_reembolsavel=item.valor_reembolsavel,
+        status="pendente",
+        justificativa=justificativa,
+    )
+
+
 def _status_de(valor_brl_elegivel: Decimal, valor_reembolsavel: Decimal) -> str:
     elegivel = arredondar_moeda(valor_brl_elegivel)
     if valor_reembolsavel == 0:
@@ -192,6 +211,8 @@ def calcular_lote(lote: Lote, politica: Politica, cambio: TabelaCambio) -> Resul
             continue
 
         itens.append(_item_recusado(despesa, "Periodicidade de limite não suportada."))
+
+    itens = [_aplicar_fila_aprovacao(item, politica) for item in itens]
 
     total_informado = sum((i.valor_informado for i in itens), Decimal("0"))
     total_reembolsavel = sum((i.valor_reembolsavel for i in itens), Decimal("0"))

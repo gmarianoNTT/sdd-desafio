@@ -25,5 +25,6 @@
     }
   },
   "nota_fiscal_obrigatoria_acima_de": 100.00,
-  "acrescimo_em_viagem_percentual": 50
+  "acrescimo_em_viagem_percentual": 50,
+  "aprovacao_manual_acima_de": 500.00
 }
