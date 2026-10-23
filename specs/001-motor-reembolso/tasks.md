@@ -110,9 +110,44 @@
 
 ---
 
-## Fase 5 — Envelope (criar no Dia 2)
+## Fase 5 — Envelope (Política v4)
 
-<Novas tasks a partir da mudança de requisito. Numeração continua de T-019.>
+- [x] **T-019** — Modelo `Politica` + leitura `politica-v4.json` (`io/politica_io.py`)
+  - **Atende:** RN-015, RN-005 (limiar), RN-006 (% viagem)
+  - **Aceite:** `test_io_le_politica_envelope` passa *(coberto por fixtures de sessão)*
+  - **Commit:** *(ver git)*
+
+- [x] **T-020** — Tabela de câmbio + retrocesso de data (AMB-016)
+  - **Atende:** RN-013, AMB-016, AMB-017
+  - **Aceite:** `test_RN_013_conversao_eur` passa
+  - **Commit:** *(ver git)*
+
+- [x] **T-021** — Motor: mapa efetivo CC, categorias condicionais, limite 0 hospedagem
+  - **Atende:** RN-003, RN-009, RN-014, AMB-013…015
+  - **Aceite:** `test_envelope_cc_desconhecido` passa
+  - **Commit:** *(ver git)*
+
+- [x] **T-022** — Entrada `moeda`; NF e limites em BRL
+  - **Atende:** RN-013, RN-005, AMB-018, AMB-019
+  - **Aceite:** `test_envelope_cc_comercial` (e-005, e-006) passa
+  - **Commit:** *(ver git)*
+
+- [x] **T-023** — CLI `--politica` e `--cambio`
+  - **Atende:** critérios aceite §9 v2
+  - **Aceite:** `test_cli_calcular_arquivo` passa
+  - **Commit:** *(ver git)*
+
+- [x] **T-024** — Regressão `despesas-exemplo.json` com CC-ENG-PLATAFORMA
+  - **Atende:** RN-001, RN-003 (hospedagem bloqueada)
+  - **Aceite:** `test_exemplo_completo_ids_criticos` passa
+  - **Commit:** *(ver git)*
+
+- [x] **T-025** — Documentação envelope: `docs(spec)`, `DECISIONS` D-002, `plan`, README
+  - **Atende:** rastreabilidade Dia 2
+  - **Aceite:** spec v2 + D-002 preenchido
+  - **Commit:** *(ver git)*
+
+*(Item C — fila aprovação > R$ 500: não implementado; fora de escopo spec v2.)*
 
 ---
 
@@ -144,3 +179,7 @@
 | AMB-010 | T-004 | `test_AMB_010_categoria_maiuscula` |
 | AMB-011 | T-015 | `test_RN_011_arredondamento_d011` |
 | AMB-012 | T-011 | coberto indiretamente em T-018 (`d-012`) |
+| RN-013 | T-020, T-022 | `test_RN_013_conversao_eur` |
+| RN-014 | T-021 | `test_envelope_cc_comercial` (e-001) |
+| RN-015 | T-019, T-021 | `test_envelope_cc_desconhecido` |
+| AMB-013…019 | T-019…T-022 | testes envelope / RN-013 |
