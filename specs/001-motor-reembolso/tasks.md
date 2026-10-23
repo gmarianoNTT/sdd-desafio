@@ -142,12 +142,15 @@
   - **Aceite:** `test_exemplo_completo_ids_criticos` passa
   - **Commit:** `f3d1fd6`
 
-- [x] **T-025** — Documentação envelope: `docs(spec)`, `DECISIONS` D-002, `plan`, README
+- [x] **T-025** — Documentação envelope: `docs(spec)`, `DECISIONS` D-001, `plan`, README
   - **Atende:** rastreabilidade Dia 2
-  - **Aceite:** spec v2 + D-002 preenchido
+  - **Aceite:** spec v2 + D-001 preenchido
   - **Commit:** `f23119c`, `01fd542`, `f3d1fd6` (README/sessão)
 
-*(Item C — fila aprovação > R$ 500: não implementado; fora de escopo spec v2.)*
+- [x] **T-026** — Fila de aprovação manual (RN-016, item C)
+  - **Atende:** RN-016, AMB-020
+  - **Aceite:** `test_RN_016_*` e e-007 `pendente` em `test_envelope_cc_comercial`
+  - **Commit:** *(ver git)*
 
 ---
 
@@ -183,3 +186,5 @@
 | RN-014 | T-021 | `test_envelope_cc_comercial` (e-001) |
 | RN-015 | T-019, T-021 | `test_envelope_cc_desconhecido` |
 | AMB-013…019 | T-019…T-022 | testes envelope / RN-013 |
+| RN-016 | T-026 | `test_RN_016_pendente_*`, `test_envelope_cc_comercial` (e-007) |
+| AMB-020 | T-026 | `test_RN_016_pendente_acima_500` (limiar exato) |
