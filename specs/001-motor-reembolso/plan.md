@@ -1,6 +1,6 @@
 # Plano Técnico — Motor de Cálculo de Reembolso
 
-**Versão:** 1.0 · **Baseado na spec:** 1.0
+**Versão:** 1.1 · **Baseado na spec:** 2.0
 
 > Aqui mora o COMO. Este arquivo pode e deve falar de linguagem, biblioteca e
 > arquitetura. O que ele **não** pode é introduzir regra de negócio nova — se
@@ -52,7 +52,8 @@ Dia 2 alterando só o núcleo ou política em constantes.
 
 - `Colaborador(id, nome, centro_custo)`
 - `Periodo(competencia, inicio, fim)` — `date`
-- `Despesa(id, data, categoria_raw, descricao, fornecedor, valor: Decimal, tem_nota_fiscal)`
+- `Despesa(..., valor: Decimal, tem_nota_fiscal, moeda: str = "BRL")`
+- `Politica` / `TabelaCambio` — carregados na borda, passados ao núcleo
 - `Lote(colaborador, periodo, despesas: list[Despesa])` — ordem preservada
 
 **Saída (interna):**
@@ -73,22 +74,17 @@ para texto legível (ex.: `LIMITE_ALIMENTACAO`, `DUPLICATA`).
 
 ## 4. Como a política é representada
 
-Constantes em `motor/politica.py`:
+Arquivo JSON (`politica-v4.json`) → `Politica` em `motor/politica_config.py`
+(`padrao`, `centros_custo`, limiar NF, % viagem). Resolução por
+`mapa_efetivo(centro_custo)` conforme RN-015.
 
-| Constante | Valor |
-|---|---|
-| `LIMITE_ALIMENTACAO` | 60 |
-| `LIMITE_TRANSPORTE` | 80 |
-| `LIMITE_HOSPEDAGEM_DIARIA` | 250 |
-| `NF_VALOR_MINIMO_EXCLUSIVO` | 100 |
-| `MULTIPLICADOR_VIAGEM` | 1.5 |
+Câmbio: `cambio.json` → `TabelaCambio` (`motor/cambio.py`); leitura em
+`io/cambio_io.py`.
 
-Categorias permitidas: `frozenset({"alimentacao", "transporte_urbano", "hospedagem"})`.
+Regex de diárias em `motor/hospedagem.py`: inalterada.
 
-Regex de diárias em `motor/hospedagem.py`: `\b(\d+)\s*(diarias?|noites?)\b` (case insensitive).
-
-Mudança futura de política (envelope) = editar constantes + spec + testes; sem
-arquivo externo de config na v1 para reduzir superfície.
+CLI obriga `--politica` e `--cambio`; núcleo permanece puro
+(`calcular_lote(lote, politica, cambio)`).
 
 ---
 
@@ -97,7 +93,7 @@ arquivo externo de config na v1 para reduzir superfície.
 ### DT-001 — Núcleo sem I/O
 
 **Contexto:** Rastreabilidade e envelope exigem testes por RN.
-**Decisão:** Função `calcular_lote(Lote) -> ResultadoLote` pura.
+**Decisão:** Função `calcular_lote(Lote, Politica, TabelaCambio) -> ResultadoLote` pura.
 **Alternativa descartada:** CLI testada só com arquivos temporários — mais lenta e opaca.
 **Consequência:** Testes unitários rápidos; CLI fina.
 
@@ -152,7 +148,8 @@ src/reembolso/
   io/json_io.py
   motor/
     calcular.py
-    politica.py
+    politica_config.py
+    cambio.py
     normalizacao.py
     duplicata.py
     viagem.py
