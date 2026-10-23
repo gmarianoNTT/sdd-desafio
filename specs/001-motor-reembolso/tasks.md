@@ -115,37 +115,37 @@
 - [x] **T-019** — Modelo `Politica` + leitura `politica-v4.json` (`io/politica_io.py`)
   - **Atende:** RN-015, RN-005 (limiar), RN-006 (% viagem)
   - **Aceite:** `test_io_le_politica_envelope` passa *(coberto por fixtures de sessão)*
-  - **Commit:** *(ver git)*
+  - **Commit:** `6bec477`
 
 - [x] **T-020** — Tabela de câmbio + retrocesso de data (AMB-016)
   - **Atende:** RN-013, AMB-016, AMB-017
   - **Aceite:** `test_RN_013_conversao_eur` passa
-  - **Commit:** *(ver git)*
+  - **Commit:** `6bec477`
 
 - [x] **T-021** — Motor: mapa efetivo CC, categorias condicionais, limite 0 hospedagem
   - **Atende:** RN-003, RN-009, RN-014, AMB-013…015
   - **Aceite:** `test_envelope_cc_desconhecido` passa
-  - **Commit:** *(ver git)*
+  - **Commit:** `56e0451`
 
 - [x] **T-022** — Entrada `moeda`; NF e limites em BRL
   - **Atende:** RN-013, RN-005, AMB-018, AMB-019
   - **Aceite:** `test_envelope_cc_comercial` (e-005, e-006) passa
-  - **Commit:** *(ver git)*
+  - **Commit:** `56e0451`
 
 - [x] **T-023** — CLI `--politica` e `--cambio`
   - **Atende:** critérios aceite §9 v2
   - **Aceite:** `test_cli_calcular_arquivo` passa
-  - **Commit:** *(ver git)*
+  - **Commit:** `56e0451`
 
 - [x] **T-024** — Regressão `despesas-exemplo.json` com CC-ENG-PLATAFORMA
   - **Atende:** RN-001, RN-003 (hospedagem bloqueada)
   - **Aceite:** `test_exemplo_completo_ids_criticos` passa
-  - **Commit:** *(ver git)*
+  - **Commit:** `f3d1fd6`
 
 - [x] **T-025** — Documentação envelope: `docs(spec)`, `DECISIONS` D-002, `plan`, README
   - **Atende:** rastreabilidade Dia 2
   - **Aceite:** spec v2 + D-002 preenchido
-  - **Commit:** *(ver git)*
+  - **Commit:** `f23119c`, `01fd542`, `f3d1fd6` (README/sessão)
 
 *(Item C — fila aprovação > R$ 500: não implementado; fora de escopo spec v2.)*
 
