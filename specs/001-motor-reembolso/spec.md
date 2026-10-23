@@ -1,6 +1,6 @@
 # Spec — Motor de Cálculo de Reembolso
 
-**Versão:** 2.0 (Política v4) · **Status:** aprovada para implementação · **Última alteração:** 2026-10-23
+**Versão:** 2.1 (Política v4 + fila manual) · **Status:** aprovada para implementação · **Última alteração:** 2026-10-23
 
 > **Regra de ouro deste arquivo:** ele descreve o QUÊ e o PORQUÊ. Nenhuma linha
 > aqui pode citar linguagem, biblioteca, classe, função ou estrutura de pasta.
@@ -36,8 +36,8 @@ justificativa auditável, aplicando a política de forma consistente.
   descrição textual genérica — apenas pela regra de hospedagem descrita em RN-006.
 - Não reembolsa categorias que não constam no mapa efetivo de limites do centro
   de custo (RN-009), salvo normalização de grafia (AMB-010).
-- **Fila de aprovação manual** para reembolsos acima de R$ 500 (comunicado v4 item C):
-  fora de escopo desta versão.
+- Não executa aprovação/rejeição pelo gestor — apenas marca itens **pendentes**
+  (RN-016); não há workflow de fila persistida.
 
 ## 4. Entrada e saída
 
@@ -70,8 +70,8 @@ de limite diário (RN-004, RN-008, RN-012).
 
 **Política externa (`politica-v4.json`):** contém `padrao` (limites por categoria),
 `centros_custo` (overrides parciais ou totais por centro), `nota_fiscal_obrigatoria_acima_de`,
-`acrescimo_em_viagem_percentual` e `moeda_base` (BRL). Categorias e tetos vêm
-somente deste arquivo — não há valores fixos no comportamento esperado.
+`acrescimo_em_viagem_percentual`, `aprovacao_manual_acima_de` (RN-016; se ausente,
+R$ 500,00) e `moeda_base` (BRL). Categorias e tetos vêm somente deste arquivo.
 
 **Câmbio (`cambio.json`):** mapa `taxas[AAAA-MM-DD][MOEDA]` → fator para converter
 unidade da moeda estrangeira em BRL (multiplicar `valor` pelo fator).
@@ -84,8 +84,8 @@ unidade da moeda estrangeira em BRL (multiplicar `valor` pelo fator).
 | `periodo.competencia` | texto | Eco da competência de entrada |
 | `itens[].id` | texto | Id da despesa correspondente |
 | `itens[].valor_informado` | número | `valor` da entrada (2 casas decimais), na moeda informada |
-| `itens[].valor_reembolsavel` | número | Valor aprovado em **BRL** (≥ 0) |
-| `itens[].status` | texto | `aprovado`, `parcial` ou `recusado` |
+| `itens[].valor_reembolsavel` | número | Valor calculado em **BRL** (≥ 0); inclui pendentes |
+| `itens[].status` | texto | `aprovado`, `parcial`, `recusado` ou `pendente` (RN-016) |
 | `itens[].justificativa` | texto | Explicação legível da decisão |
 | `resumo.total_informado` | número | Soma dos `valor_informado` (valores brutos da entrada) |
 | `resumo.total_reembolsavel` | número | Soma dos `valor_reembolsavel` em BRL |
@@ -96,6 +96,10 @@ unidade da moeda estrangeira em BRL (multiplicar `valor` pelo fator).
 - `parcial` — `0 < valor_reembolsavel <` valor elegível em BRL antes de cortes
   por teto diário/diária, ou corte por limite agregado.
 - `recusado` — `valor_reembolsavel` = 0.
+- `pendente` — `valor_reembolsavel` > 0 e **estritamente maior** que
+  `aprovacao_manual_acima_de` da política; cálculo de limites/NF concluído, mas
+  reembolso automático bloqueado — aguarda gestor (RN-016). Substitui o status
+  `aprovado` ou `parcial` que seria atribuído antes da fila.
 
 ---
 
@@ -214,6 +218,17 @@ Centro **sem** entrada em `centros_custo` usa **apenas** `padrao` (AMB-013).
 **Origem:** política v4 item A.
 **Aceite:** CC-SUPORTE-N2 → limites padrão; CC-ADM sem hospedagem no override
 → hospedagem continua valendo via `padrao`.
+
+### RN-016 — Fila de aprovação manual
+
+**Regra:** Após RN-001…RN-015, se `valor_reembolsavel` **estritamente maior**
+que `aprovacao_manual_acima_de` da política (padrão R$ 500,00), o item recebe
+status `pendente` em lugar de `aprovado` ou `parcial`. O valor reembolsável
+calculado **não** é alterado. Itens `recusado` (R$ 0) não entram na fila.
+**Origem:** comunicado v4 item C.
+**Aceite:** e-007 (R$ 1.200 reembolsável) → `pendente`; e-001 (R$ 300) permanece
+`parcial`; item com R$ 500,00 exatos permanece autoaprovado se demais regras OK
+(AMB-020).
 
 ---
 
@@ -397,6 +412,15 @@ BRL; `status` compara reembolso ao elegível em BRL.
 **Justificativa:** Empresa paga em BRL; colaborador vê o que lançou.
 **Regra afetada:** RN-011, RN-013
 
+### AMB-020 — “Passar de R$ 500” na fila manual
+
+**Texto original do RH:** "valor reembolsável **passe de R$ 500**."
+**O que não está claro:** R$ 500,00 exatos entram na fila?
+**Decisão:** Pendência apenas se `valor_reembolsavel > aprovacao_manual_acima_de`
+(RN-016), alinhado a AMB-003.
+**Justificativa:** “Passar de” lido como estritamente acima do limiar.
+**Regra afetada:** RN-016
+
 ---
 
 ## 7. Casos de borda
@@ -417,6 +441,8 @@ BRL; `status` compara reembolso ao elegível em BRL.
 | Representação parcial | e-001 | R$ 300 | RN-014 |
 | CC desconhecido | f-001… | Tetos padrão | RN-015 |
 | Representação só comercial | f-003 | R$ 0 | RN-009 |
+| Reembolso alto | e-007 | R$ 1.200, status `pendente` | RN-016 |
+| Abaixo do limiar fila | e-001 | R$ 300, `parcial` (não pendente) | RN-016 |
 
 ---
 
@@ -434,6 +460,7 @@ Para cada despesa, **na ordem do array** `despesas`:
 8. Hospedagem (RN-003) ou categorias diárias — alimentação, transporte,
    representação (RN-001, RN-002, RN-014, RN-012) com RN-006.
 9. Arredondar (RN-011) e status/justificativa (AMB-019).
+10. **Fila manual** — se elegível e reembolso > limiar, status `pendente` (RN-016).
 
 **Pré-processamento:** datas em viagem (AMB-004) antes dos passos 8.
 
@@ -445,7 +472,8 @@ Para cada despesa, **na ordem do array** `despesas`:
 - [ ] `exemplos/despesas-exemplo.json` + `exemplos/envelope/politica-v4.json` +
   `exemplos/envelope/cambio.json` → resultados coerentes com RN-001…RN-015 e AMB.
 - [ ] `exemplos/envelope/despesas-envelope.json` e
-  `despesas-envelope-cc-desconhecido.json` processados conforme regras acima.
+  `despesas-envelope-cc-desconhecido.json` processados conforme regras acima,
+  incluindo RN-016 (ex.: e-007 pendente).
 - [ ] Resumo: `total_reembolsavel` = soma dos itens.
 - [ ] Testes automatizados por RN/AMB reconhecíveis.
 
@@ -453,6 +481,7 @@ Para cada despesa, **na ordem do array** `despesas`:
 
 ## 10. O que fica em aberto
 
-- **Aprovação manual > R$ 500** (v4 item C): registrado fora de escopo até nova spec.
+- **Decisão do gestor** sobre itens `pendente`: fora de escopo — o sistema só
+  sinaliza a pendência.
 - **Histórico de versões da política:** usa-se o arquivo informado na execução;
   vigência retroativa não altera o mecanismo.
