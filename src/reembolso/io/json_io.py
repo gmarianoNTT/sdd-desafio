@@ -26,6 +26,7 @@ def lote_de_dict(dados: dict[str, Any]) -> Lote:
             fornecedor=item["fornecedor"],
             valor=decimal_de_entrada(item["valor"]),
             tem_nota_fiscal=bool(item["tem_nota_fiscal"]),
+            moeda=str(item.get("moeda", "BRL")).upper(),
         )
         for item in dados["despesas"]
     ]

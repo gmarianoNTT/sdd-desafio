@@ -28,6 +28,7 @@ class Despesa:
     fornecedor: str
     valor: Decimal
     tem_nota_fiscal: bool
+    moeda: str = "BRL"
 
 
 @dataclass(frozen=True)

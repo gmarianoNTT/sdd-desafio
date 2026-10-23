@@ -1,9 +1,5 @@
-from decimal import Decimal
+"""Compatibilidade: política v4 carregada via I/O."""
 
-LIMITE_ALIMENTACAO = Decimal("60")
-LIMITE_TRANSPORTE = Decimal("80")
-LIMITE_HOSPEDAGEM_DIARIA = Decimal("250")
-NF_VALOR_MINIMO_EXCLUSIVO = Decimal("100")
-MULTIPLICADOR_VIAGEM = Decimal("1.5")
+from reembolso.motor.politica_config import LimiteCategoria, Politica
 
-CATEGORIAS_PERMITIDAS = frozenset({"alimentacao", "transporte_urbano", "hospedagem"})
+__all__ = ["LimiteCategoria", "Politica"]
