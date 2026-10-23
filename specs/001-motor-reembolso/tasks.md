@@ -157,7 +157,7 @@
 - [x] **T-027** — Relatório final e export sessão Dia 2 tarde
   - **Atende:** critério Relatório (RUBRICA), CHECKLIST Dia 2 tarde
   - **Aceite:** `docs/RELATORIO.md` com discernimento citando `docs/sessions/`; export em `docs/sessions/05-…md`
-  - **Commit:** *(pendente)*
+  - **Commit:** `484dd25`
 
 ---
 
