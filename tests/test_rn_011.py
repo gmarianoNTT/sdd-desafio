@@ -1,14 +1,13 @@
 from datetime import date
 from decimal import Decimal
 
-from reembolso.motor.calcular import calcular_lote
 from reembolso.motor.monetario import arredondar_moeda
 from tests.conftest import despesa, lote_de_despesas
 
 
-def test_RN_011_arredondamento_d011(colaborador, periodo_julho):
+def test_RN_011_arredondamento_d011(colaborador, periodo_julho, calcular_lote_fn):
     assert arredondar_moeda(Decimal("33.333")) == Decimal("33.33")
-    resultado = calcular_lote(
+    resultado = calcular_lote_fn(
         lote_de_despesas(
             colaborador,
             periodo_julho,

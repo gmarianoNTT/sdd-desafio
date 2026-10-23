@@ -1,12 +1,11 @@
 from datetime import date
 from decimal import Decimal
 
-from reembolso.motor.calcular import calcular_lote
 from tests.conftest import despesa, lote_de_despesas
 
 
-def test_RN_005_nf_100_exato_ok(colaborador, periodo_julho):
-    resultado = calcular_lote(
+def test_RN_005_nf_100_exato_ok(colaborador, periodo_julho, calcular_lote_fn):
+    resultado = calcular_lote_fn(
         lote_de_despesas(
             colaborador,
             periodo_julho,
@@ -25,8 +24,8 @@ def test_RN_005_nf_100_exato_ok(colaborador, periodo_julho):
     assert resultado.itens[0].status == "parcial"
 
 
-def test_RN_005_nf_100_01_recusa(colaborador, periodo_julho):
-    resultado = calcular_lote(
+def test_RN_005_nf_100_01_recusa(colaborador, periodo_julho, calcular_lote_fn):
+    resultado = calcular_lote_fn(
         lote_de_despesas(
             colaborador,
             periodo_julho,

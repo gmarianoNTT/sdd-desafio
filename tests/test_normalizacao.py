@@ -1,14 +1,13 @@
 from datetime import date
 from decimal import Decimal
 
-from reembolso.motor.calcular import calcular_lote
 from reembolso.motor.normalizacao import normalizar_categoria
 from tests.conftest import despesa, lote_de_despesas
 
 
-def test_AMB_010_categoria_maiuscula(colaborador, periodo_julho):
+def test_AMB_010_categoria_maiuscula(colaborador, periodo_julho, calcular_lote_fn):
     assert normalizar_categoria("ALIMENTACAO") == "alimentacao"
-    resultado = calcular_lote(
+    resultado = calcular_lote_fn(
         lote_de_despesas(
             colaborador,
             periodo_julho,

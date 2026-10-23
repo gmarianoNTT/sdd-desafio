@@ -15,14 +15,25 @@ python -m pip install -e .
 ## Uso
 
 ```bash
-reembolso calcular --input exemplos/despesas-exemplo.json --output resultado.json
+reembolso calcular \
+  --input exemplos/despesas-exemplo.json \
+  --output resultado.json \
+  --politica exemplos/envelope/politica-v4.json \
+  --cambio exemplos/envelope/cambio.json
 ```
 
 Alternativa sem entry point no PATH:
 
 ```bash
-python -m reembolso.cli.main calcular --input exemplos/despesas-exemplo.json --output resultado.json
+python -m reembolso.cli.main calcular \
+  --input exemplos/despesas-exemplo.json \
+  --output resultado.json \
+  --politica exemplos/envelope/politica-v4.json \
+  --cambio exemplos/envelope/cambio.json
 ```
+
+Exemplos do envelope (Dia 2): `exemplos/envelope/despesas-envelope.json` e
+`despesas-envelope-cc-desconhecido.json` com os mesmos `--politica` e `--cambio`.
 
 ## Testes
 

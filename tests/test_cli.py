@@ -7,6 +7,8 @@ from pathlib import Path
 def test_cli_calcular_arquivo(tmp_path):
     raiz = Path(__file__).resolve().parents[1]
     entrada = raiz / "exemplos" / "despesas-exemplo.json"
+    politica = raiz / "exemplos" / "envelope" / "politica-v4.json"
+    cambio = raiz / "exemplos" / "envelope" / "cambio.json"
     saida = tmp_path / "resultado.json"
     proc = subprocess.run(
         [
@@ -18,6 +20,10 @@ def test_cli_calcular_arquivo(tmp_path):
             str(entrada),
             "--output",
             str(saida),
+            "--politica",
+            str(politica),
+            "--cambio",
+            str(cambio),
         ],
         cwd=raiz,
         capture_output=True,
