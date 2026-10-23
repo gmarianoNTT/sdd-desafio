@@ -12,101 +12,101 @@
 
 ## Fase 1 — Fundação
 
-- [ ] **T-001** — Esqueleto do projeto (`pyproject.toml`, pacote `reembolso`, entry point CLI vazio)
+- [x] **T-001** — Esqueleto do projeto (`pyproject.toml`, pacote `reembolso`, entry point CLI vazio)
   - **Atende:** critérios de aceite seção 9 (CLI existe)
   - **Aceite:** `reembolso --help` executa sem erro após `pip install -e .`
-  - **Commit:**
+  - **Commit:** `9746013`
 
-- [ ] **T-002** — Leitura e escrita JSON (`io/json_io.py`) + modelo de lote
+- [x] **T-002** — Leitura e escrita JSON (`io/json_io.py`) + modelo de lote
   - **Atende:** entrada/saída spec §4
   - **Aceite:** `test_io_le_lote_exemplo` passa carregando `exemplos/despesas-exemplo.json`
-  - **Commit:**
+  - **Commit:** `aa7e442`
 
-- [ ] **T-003** — Função pura `calcular_lote` retornando um item por despesa (valores zerados)
+- [x] **T-003** — Função pura `calcular_lote` retornando um item por despesa (valores zerados)
   - **Atende:** schema de saída
   - **Aceite:** `test_calcular_lote_retorna_mesmos_ids` passa
-  - **Commit:**
+  - **Commit:** `82d76e9` (núcleo completo de regras no mesmo commit, além do esqueleto zerado)
 
 ## Fase 2 — Regras de negócio (pré-limites)
 
-- [ ] **T-004** — Normalização de categoria
+- [x] **T-004** — Normalização de categoria
   - **Atende:** RN-009, AMB-010
   - **Aceite:** `test_AMB_010_categoria_maiuscula` (d-014) passa
-  - **Commit:**
+  - **Commit:** `8c98b56`
 
-- [ ] **T-005** — Categoria fora da política
+- [x] **T-005** — Categoria fora da política
   - **Atende:** RN-009, AMB-009
   - **Aceite:** `test_RN_009_coworking_recusado` (d-005) passa
-  - **Commit:**
+  - **Commit:** `58b002c`
 
-- [ ] **T-006** — Competência do período
+- [x] **T-006** — Competência do período
   - **Atende:** RN-007, AMB-006
   - **Aceite:** `test_RN_007_fora_competencia` (d-008) passa
-  - **Commit:**
+  - **Commit:** `ccdaf99`
 
-- [ ] **T-007** — Detecção de duplicatas
+- [x] **T-007** — Detecção de duplicatas
   - **Atende:** RN-008, AMB-005
   - **Aceite:** `test_RN_008_duplicata_segunda_recusada` (d-006/d-007) passa
-  - **Commit:**
+  - **Commit:** `3b884c5`
 
-- [ ] **T-008** — Nota fiscal acima de R$ 100
+- [x] **T-008** — Nota fiscal acima de R$ 100
   - **Atende:** RN-005, AMB-003
   - **Aceite:** `test_RN_005_nf_100_exato_ok` e `test_RN_005_nf_100_01_recusa` (d-003/d-004) passam
-  - **Commit:**
+  - **Commit:** `e5a85c5`
 
-- [ ] **T-009** — Estorno (valor negativo)
+- [x] **T-009** — Estorno (valor negativo)
   - **Atende:** RN-010, AMB-007
   - **Aceite:** `test_RN_010_estorno_zero_e_devolve_saldo` (d-009) passa
-  - **Commit:**
+  - **Commit:** `ef4d1f8`
 
 ## Fase 3 — Limites e viagem
 
-- [ ] **T-010** — Pré-processamento “em viagem” a partir de hospedagem
+- [x] **T-010** — Pré-processamento “em viagem” a partir de hospedagem
   - **Atende:** RN-006, AMB-004
   - **Aceite:** `test_AMB_004_datas_viagem_de_hospedagem` passa
-  - **Commit:**
+  - **Commit:** `038fad4`
 
-- [ ] **T-011** — Limite diário alimentação com saldo compartilhado
+- [x] **T-011** — Limite diário alimentação com saldo compartilhado
   - **Atende:** RN-001, RN-004, RN-012, AMB-001, AMB-002
   - **Aceite:** `test_RN_001_d001_d002_limite_60` passa
-  - **Commit:**
+  - **Commit:** `5dbba42`
 
-- [ ] **T-012** — Limite diário transporte urbano
+- [x] **T-012** — Limite diário transporte urbano
   - **Atende:** RN-002
   - **Aceite:** `test_RN_002_limite_transporte_80` passa
-  - **Commit:**
+  - **Commit:** `300e1fd`
 
-- [ ] **T-013** — Hospedagem rateada por diárias
+- [x] **T-013** — Hospedagem rateada por diárias
   - **Atende:** RN-003, AMB-008
   - **Aceite:** `test_RN_003_hospedagem_d010_rateio` passa
-  - **Commit:**
+  - **Commit:** `d60118f`
 
-- [ ] **T-014** — Limites ampliados em viagem (+50%)
+- [x] **T-014** — Limites ampliados em viagem (+50%)
   - **Atende:** RN-006
   - **Aceite:** `test_RN_006_alimentacao_90_em_viagem` passa
-  - **Commit:**
+  - **Commit:** `ef26033`
 
 ## Fase 4 — Saída e CLI
 
-- [ ] **T-015** — Arredondamento e status (`aprovado` / `parcial` / `recusado`)
+- [x] **T-015** — Arredondamento e status (`aprovado` / `parcial` / `recusado`)
   - **Atende:** RN-011, RN-004
   - **Aceite:** `test_RN_011_arredondamento_d011` passa
-  - **Commit:**
+  - **Commit:** `898e81e`
 
-- [ ] **T-016** — Resumo (`total_informado`, `total_reembolsavel`)
+- [x] **T-016** — Resumo (`total_informado`, `total_reembolsavel`)
   - **Atende:** spec §4 resumo
   - **Aceite:** `test_resumo_soma_itens` passa
-  - **Commit:**
+  - **Commit:** `d2f3cb0`
 
-- [ ] **T-017** — CLI `calcular --input --output`
+- [x] **T-017** — CLI `calcular --input --output`
   - **Atende:** critérios de aceite seção 9
   - **Aceite:** `test_cli_calcular_arquivo` passa
-  - **Commit:**
+  - **Commit:** `614903b`
 
-- [ ] **T-018** — Integração com `exemplos/despesas-exemplo.json`
+- [x] **T-018** — Integração com `exemplos/despesas-exemplo.json`
   - **Atende:** critérios de aceite seção 9 (d-001…d-014)
   - **Aceite:** `test_exemplo_completo_ids_criticos` passa
-  - **Commit:**
+  - **Commit:** `d0ed763`
 
 ---
 
