@@ -150,7 +150,7 @@
 - [x] **T-026** — Fila de aprovação manual (RN-016, item C)
   - **Atende:** RN-016, AMB-020
   - **Aceite:** `test_RN_016_*` e e-007 `pendente` em `test_envelope_cc_comercial`
-  - **Commit:** `c87e556`, `*(hash testes RN-016)*`
+  - **Commit:** `c87e556` (motor/política), `f467c06` (testes)
 
 ---
 
