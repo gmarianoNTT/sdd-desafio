@@ -18,6 +18,8 @@ def test_envelope_cc_comercial(calcular_lote_fn):
     assert _item(resultado, "e-005").valor_reembolsavel == Decimal("0")
     assert _item(resultado, "e-006").valor_reembolsavel == Decimal("0")
     assert _item(resultado, "e-009").valor_reembolsavel == Decimal("0")
+    assert _item(resultado, "e-007").valor_reembolsavel == Decimal("1200.00")
+    assert _item(resultado, "e-007").status == "pendente"
 
 
 def test_envelope_cc_desconhecido(calcular_lote_fn):
