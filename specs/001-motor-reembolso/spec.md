@@ -219,8 +219,122 @@ Centro **sem** entrada em `centros_custo` usa **apenas** `padrao` (AMB-013).
 
 ## 6. Ambiguidades identificadas e decisões
 
-AMB-001 … AMB-012 permanecem válidas, salvo onde RN referenciada foi generalizada
-(limites parametrizados). Novas:
+### AMB-001 — “R$ 60 por dia” — unidade do limite
+
+**Texto original do RH:** "Alimentação tem limite de **R$ 60 por dia**."
+**O que não está claro:** Limite por despesa individual ou soma de todas as
+refeições na mesma data?
+**Decisão:** Teto **agregado por data civil** e categoria (RN-001, RN-012); teto
+numérico vem do mapa efetivo do CC (v4).
+**Justificativa:** “Por dia” no contexto de prestação de contas refere-se ao dia
+calendário, não a cada lançamento isolado.
+**Regra afetada:** RN-001, RN-002, RN-012
+
+### AMB-002 — “Reembolsadas parcialmente”
+
+**Texto original do RH:** "Despesas **acima do limite** são reembolsadas parcialmente."
+**O que não está claro:** Pagar até o limite e cortar só o excedente, ou recusar
+o lançamento inteiro?
+**Decisão:** Reembolsar até o teto disponível; excedente não pago (RN-004).
+**Justificativa:** “Parcialmente” implica pagamento parcial, não recusa total.
+**Regra afetada:** RN-004
+
+### AMB-003 — Fronteira “acima de R$ 100” e nota fiscal
+
+**Texto original do RH:** "**Nota fiscal é obrigatória acima de R$ 100.**"
+**O que não está claro:** R$ 100,00 exatos exigem NF?
+**Decisão:** Obrigatória apenas se valor em BRL **estritamente maior** que o limiar
+da política (RN-005).
+**Justificativa:** “Acima de” em normas corporativas costuma ser estrito; evita
+penalizar o limiar exato (d-003 vs d-004).
+**Regra afetada:** RN-005
+
+### AMB-004 — “Em viagem” sem campo na entrada
+
+**Texto original do RH:** "Colaborador **em viagem** tem limites ampliados em 50%."
+**O que não está claro:** Como detectar viagem sem atributo no JSON?
+**Decisão:** Uma data está “em viagem” se cai no intervalo de permanência inferido
+de alguma despesa de **hospedagem** no mesmo arquivo: `data` da hospedagem = primeiro
+dia; número de diárias = inteiro extraído de `descricao` (`N diaria(s)`, `N noite(s)`,
+case insensitive); se ausente, **1** diária; dias cobertos = `data` até
+`data + (N - 1)` inclusive.
+**Justificativa:** Hospedagem é o único indicador objetivo disponível na entrada;
+fim de semana ou “plantão” (d-012) não ampliam limite sozinhos.
+**Regra afetada:** RN-006
+
+### AMB-005 — “Duplicatas devem ser tratadas”
+
+**Texto original do RH:** "**Duplicatas devem ser tratadas.**"
+**O que não está claro:** Mesclar, somar, recusar todas, recusar repetidas?
+**Decisão:** Duplicata = mesma `data`, mesma categoria normalizada, mesmo
+`fornecedor`, mesmo `valor` e mesma `descricao` (comparação case-insensitive,
+espaços normalizados). Mantém-se a **primeira** na ordem do array; demais → R$ 0
+(RN-008).
+**Justificativa:** Preserva um lançamento legítimo e bloqueia reenvio acidental
+(d-006/d-007).
+**Regra afetada:** RN-008
+
+### AMB-006 — Competência vs data da despesa
+
+**Texto original do RH:** "Despesas devem ser lançadas **dentro do período de competência**."
+**O que não está claro:** Usar só `competencia` textual ou o intervalo `inicio`/`fim`?
+**Decisão:** Validar `despesas[].data` contra `periodo.inicio` e `periodo.fim` (RN-007).
+**Justificativa:** O JSON já traz intervalo explícito; evita ambiguidade de mês
+vs competência contábil.
+**Regra afetada:** RN-007
+
+### AMB-007 — Valor negativo / estorno
+
+**Texto original do RH:** *(silêncio — item d-009 no exemplo)*
+**O que não está claro:** Estorno reduz limite, gera crédito ou é ignorado?
+**Decisão:** RN-010 — reembolso zero; valor negativo aumenta saldo disponível
+do limite diário da categoria na mesma data, na ordem do array (em BRL).
+**Justificativa:** Estorno reflete cancelamento de gasto anterior; devolver margem
+evita punir o mesmo dia.
+**Regra afetada:** RN-010
+
+### AMB-008 — Hospedagem em lançamento único (várias diárias)
+
+**Texto original do RH:** "Hospedagem tem limite de **R$ 250 por diária**."
+**O que não está claro:** Uma fatura única de várias noites — limite sobre total ou por noite?
+**Decisão:** Inferir N diárias pela descrição; calcular `valor_por_diaria = valor / N`;
+reembolso por diária = `min(valor_por_diaria, teto_diaria)`; somar N diárias,
+limitado a `valor` (RN-003); tetos da política v4.
+**Justificativa:** Política fala em “por diária”; rateio é a leitura coerente
+(d-010, d-013).
+**Regra afetada:** RN-003
+
+### AMB-009 — Categoria ausente na política
+
+**Texto original do RH:** "**Categorias fora da política não são reembolsáveis.**"
+**O que não está claro:** Coworking, material, etc.
+**Decisão:** Categoria ausente no **mapa efetivo** do centro de custo → R$ 0 (RN-009).
+**Justificativa:** Lista fechada por CC/padrão no JSON de política.
+**Regra afetada:** RN-009
+
+### AMB-010 — Normalização de categoria
+
+**Texto original do RH:** *(silêncio — d-014 `ALIMENTACAO`)*
+**O que não está claro:** Maiúsculas, acentos, espaços?
+**Decisão:** Normalizar para minúsculas sem acento, trim; `ALIMENTACAO` → alimentacao.
+**Justificativa:** Evita recusa por formato; categoria semântica é a mesma.
+**Regra afetada:** RN-001, RN-009
+
+### AMB-011 — Precisão decimal
+
+**Texto original do RH:** *(silêncio — d-011 valor 33,333)*
+**O que não está claro:** Quantas casas na saída e como arredondar?
+**Decisão:** RN-011 — duas casas decimais na saída, half-away-from-zero.
+**Justificativa:** Padrão monetário BRL em relatórios corporativos.
+**Regra afetada:** RN-011
+
+### AMB-012 — Fim de semana e plantão
+
+**Texto original do RH:** *(silêncio — d-012 sábado)*
+**O que não está claro:** Limite diferente em fim de semana?
+**Decisão:** Mesmas regras que dias úteis; sem acréscimo automático por ser sábado/domingo.
+**Justificativa:** Política não distingue; ampliar só por RN-006 quando em viagem.
+**Regra afetada:** RN-001 (sem alteração de teto)
 
 ### AMB-013 — “Aplica-se a política padrão”
 
@@ -282,9 +396,6 @@ continua valendo do padrão (CC-ADM hospedagem).
 BRL; `status` compara reembolso ao elegível em BRL.
 **Justificativa:** Empresa paga em BRL; colaborador vê o que lançou.
 **Regra afetada:** RN-011, RN-013
-
-*(AMB-001 … AMB-012: ver versão anterior do documento; decisões mantidas, com
-limites numéricos de exemplos entendidos como ilustração do CC aplicável.)*
 
 ---
 
