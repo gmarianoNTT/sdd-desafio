@@ -1,6 +1,6 @@
 # Relatório — Desafio SDD
 
-**Aluno:** *(preencher nome no formulário)* · **Repositório:** https://github.com/gmarianoNTT/sdd-desafio · **Data:** 2026-10-23
+**Aluno:** Gustavo Enrique Mariano · **Repositório:** https://github.com/gmarianoNTT/sdd-desafio · **Data:** 2026-10-23
 
 > Evidências cruzadas com `docs/sessions/`, hashes de commit e arquivos da spec.
 
@@ -72,17 +72,6 @@
 
 **Onde está a evidência:** `docs/sessions/04-dia2-envelope-v4.md` — bloco *“Primeiro, atualize… D-002, porém deveria ser a D-001”* e resumo *“DECISIONS.md — D-002 → D-001”*.
 
-### Caso 2 *(opcional)* — Tipo de commit vs. conteúdo
-
-**O que ele propôs:** `test(T-026): …` incluindo alterações em `motor/politica.py` / `calcular.py` (`c87e556`).
-
-**Por que estava errado:** Convenção do desafio separa `feat(T-xxx)` (código) de `test(T-xxx)` (só testes).
-
-**Como eu detectei:** `git show c87e556 --stat` mostra motor + testes no mesmo commit.
-
-**O que eu fiz:** Aceitei para não reescrever histórico; documentei em `tasks.md` e neste relatório. Comportamento coberto por `f467c06` e 23 testes verdes.
-
-**Padrão que notei:** Em entregas grandes (envelope), o agente agrupa arquivos relacionados num commit só; preciso pedir commits atômicos por task explicitamente.
 
 ---
 
