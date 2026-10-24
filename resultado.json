@@ -1,0 +1,112 @@
+{
+  "colaborador": {
+    "id": "c-0417"
+  },
+  "periodo": {
+    "competencia": "2026-07"
+  },
+  "itens": [
+    {
+      "id": "d-001",
+      "valor_informado": 72.5,
+      "valor_reembolsavel": 60.0,
+      "status": "parcial",
+      "justificativa": "Limite diário de alimentacao; reembolso parcial do excedente."
+    },
+    {
+      "id": "d-002",
+      "valor_informado": 38.0,
+      "valor_reembolsavel": 0.0,
+      "status": "recusado",
+      "justificativa": "Limite diário da categoria esgotado para esta data."
+    },
+    {
+      "id": "d-003",
+      "valor_informado": 100.0,
+      "valor_reembolsavel": 80.0,
+      "status": "parcial",
+      "justificativa": "Limite diário de transporte urbano; reembolso parcial do excedente."
+    },
+    {
+      "id": "d-004",
+      "valor_informado": 100.01,
+      "valor_reembolsavel": 0.0,
+      "status": "recusado",
+      "justificativa": "Nota fiscal obrigatória para despesas com valor acima de R$ 100,00."
+    },
+    {
+      "id": "d-005",
+      "valor_informado": 89.0,
+      "valor_reembolsavel": 0.0,
+      "status": "recusado",
+      "justificativa": "Categoria não coberta pela política de reembolso."
+    },
+    {
+      "id": "d-006",
+      "valor_informado": 54.9,
+      "valor_reembolsavel": 54.9,
+      "status": "aprovado",
+      "justificativa": "Despesa aprovada dentro da política."
+    },
+    {
+      "id": "d-007",
+      "valor_informado": 54.9,
+      "valor_reembolsavel": 0.0,
+      "status": "recusado",
+      "justificativa": "Despesa duplicada; apenas a primeira ocorrência é elegível."
+    },
+    {
+      "id": "d-008",
+      "valor_informado": 41.0,
+      "valor_reembolsavel": 0.0,
+      "status": "recusado",
+      "justificativa": "Data fora do período de competência informado."
+    },
+    {
+      "id": "d-009",
+      "valor_informado": -45.0,
+      "valor_reembolsavel": 0.0,
+      "status": "recusado",
+      "justificativa": "Estorno registrado; margem devolvida ao limite diário da categoria."
+    },
+    {
+      "id": "d-010",
+      "valor_informado": 480.0,
+      "valor_reembolsavel": 480.0,
+      "status": "aprovado",
+      "justificativa": "Hospedagem rateada por diária conforme teto da política."
+    },
+    {
+      "id": "d-011",
+      "valor_informado": 33.33,
+      "valor_reembolsavel": 33.33,
+      "status": "aprovado",
+      "justificativa": "Limite diário de alimentacao; reembolso parcial do excedente."
+    },
+    {
+      "id": "d-012",
+      "valor_informado": 47.2,
+      "valor_reembolsavel": 47.2,
+      "status": "aprovado",
+      "justificativa": "Despesa aprovada dentro da política."
+    },
+    {
+      "id": "d-013",
+      "valor_informado": 690.0,
+      "valor_reembolsavel": 0.0,
+      "status": "recusado",
+      "justificativa": "Nota fiscal obrigatória para despesas com valor acima de R$ 100,00."
+    },
+    {
+      "id": "d-014",
+      "valor_informado": 61.0,
+      "valor_reembolsavel": 60.0,
+      "status": "parcial",
+      "justificativa": "Limite diário de alimentacao; reembolso parcial do excedente."
+    }
+  ],
+  "resumo": {
+    "total_informado": 1816.84,
+    "total_reembolsavel": 815.43
+  }
+}

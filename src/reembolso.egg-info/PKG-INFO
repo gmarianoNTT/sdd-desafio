@@ -1,0 +1,56 @@
+Metadata-Version: 2.4
+Name: reembolso
+Version: 0.1.0
+Summary: Motor de cálculo de reembolso de despesas corporativas
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+
+# Motor de reembolso de despesas
+
+CLI que lê um JSON de despesas corporativas e grava o resultado do cálculo de reembolso (valor reembolsável, status e justificativa por item), conforme a política documentada em `specs/001-motor-reembolso/spec.md`.
+
+## Requisitos
+
+- Python 3.11 ou superior
+
+## Instalação
+
+```bash
+python -m pip install -e .
+```
+
+## Uso
+
+```bash
+reembolso calcular --input exemplos/despesas-exemplo.json --output resultado.json
+```
+
+Alternativa sem entry point no PATH:
+
+```bash
+python -m reembolso.cli.main calcular --input exemplos/despesas-exemplo.json --output resultado.json
+```
+
+## Testes
+
+```bash
+python -m pip install -e . pytest
+python -m pytest
+```
+
+## Documentação do desafio
+
+- **Spec (regras de negócio):** `specs/001-motor-reembolso/spec.md`
+- **Plano técnico:** `specs/001-motor-reembolso/plan.md`
+- **Tasks:** `specs/001-motor-reembolso/tasks.md`
+- **Decisões de spec:** `specs/001-motor-reembolso/DECISIONS.md`
+
+## Estrutura
+
+```
+src/reembolso/
+  cli/          # argparse e comando calcular
+  io/           # leitura/escrita JSON
+  motor/        # núcleo puro (regras RN-001…)
+tests/          # testes por RN/AMB e integração
+```
